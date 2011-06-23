@@ -1,17 +1,12 @@
 #!/usr/bin/env python
 import sys, time
 from daemon import Daemon
+from mydaemon import MyDaemon
 
 import logging
-log = logging.getLogger()
+log = logging.getLogger(__name__)
 
 from datetime import datetime
-
-class MyDaemon(Daemon):
-	def run(self):
-		while True:
-			log.info(datetime.now())
-			time.sleep(1)
 
 if __name__ == "__main__":
 	logger = logging.getLogger()
