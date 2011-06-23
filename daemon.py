@@ -119,7 +119,8 @@ class Daemon:
 			pf = file(self.pidfile,'r')
 			pid = int(pf.read().strip())
 			pf.close()
-		except IOError:
+		except IOError, err:
+			log.error("error while getting pidfile %s" % err)
 			pid = None
 	
 		if not pid:
@@ -127,12 +128,14 @@ class Daemon:
 			sys.stderr.write(message % self.pidfile)
 			return # not an error in a restart
 
+		log.info("going to stop process %s" % pid)
 		# Try killing the daemon process	
 		try:
 			while 1:
 				os.kill(pid, SIGTERM)
 				time.sleep(0.1)
 		except OSError, err:
+			log.error("error while sending SIGTERM: %s" % err)
 			err = str(err)
 			if err.find("No such process") > 0:
 				if os.path.exists(self.pidfile):
