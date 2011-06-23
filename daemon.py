@@ -3,7 +3,7 @@ import sys, os, time, atexit
 from signal import SIGTERM 
 
 import logging
-log = logging.getLogger()
+log = logging.getLogger(__name__)
 
 class Daemon:
 	"""
