@@ -1,5 +1,7 @@
 #!/usr/bin/python
 import sys, os, time, atexit
+
+import signal
 from signal import SIGTERM 
 
 import logging
@@ -23,7 +25,7 @@ class Daemon:
         Programming in the UNIX Environment" for details (ISBN 0201563177)
         http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
         """
-        log.info('DEAMONIZING')
+        log.info('DAEMONIZING')
         try: 
             pid = os.fork() 
             if pid > 0:
@@ -122,7 +124,7 @@ class Daemon:
             pid = int(pf.read().strip())
             pf.close()
         except IOError, err:
-            log.error("error while getting pidfile %s" % err)
+            log.info("%s is stopped" % sys.argv[0])
             pid = None
     
         if not pid:
@@ -133,16 +135,17 @@ class Daemon:
         log.info("going to stop process %s" % pid)
         # Try killing the daemon process    
         try:
-            while 1:
-                os.kill(pid, SIGTERM)
-                time.sleep(0.1)
+            os.kill(pid, SIGTERM)
+            time.sleep(1)
         except OSError, err:
-            log.error("error while sending SIGTERM: %s" % err)
             err = str(err)
             if err.find("No such process") > 0:
                 if os.path.exists(self.pidfile):
+                    log.error("removing pidfile since there is not a process")
                     os.remove(self.pidfile)
+                    pass
             else:
+                log.error("error while sending SIGTERM: %s" % err)
                 print str(err)
                 sys.exit(1)
 
