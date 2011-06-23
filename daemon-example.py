@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import logging
+import logging.handlers
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler('/tmp/daemon.log')
+handler = logging.handlers.TimedRotatingFileHandler('/tmp/daemon.log',when='midnight',backupCount=9)
 formatter = logging.Formatter("%(asctime)-15s %(name)s: %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
