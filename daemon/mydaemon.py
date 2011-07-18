@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys, time
-from daemon import Daemon
+from lib.daemon import Daemon
 
 import logging
 log = logging.getLogger(__name__)

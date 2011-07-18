@@ -19,8 +19,7 @@ logger.addHandler(sysloghandler)
 import sys, time
 from datetime import datetime
 
-from daemon import Daemon
-from mydaemon import MyDaemon
+from daemon.mydaemon import MyDaemon
 
 
 if __name__ == "__main__":
