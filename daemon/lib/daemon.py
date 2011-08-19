@@ -1,4 +1,8 @@
 #!/usr/bin/python
+# daemon.py
+"""
+Python Daemon class
+"""
 import sys, os, time, atexit
 
 import signal
@@ -7,7 +11,7 @@ from signal import SIGTERM
 import logging
 log = logging.getLogger(__name__)
 
-class Daemon:
+class Daemon(object):
     """
     A generic daemon class.
     
@@ -61,10 +65,12 @@ class Daemon:
         os.dup2(se.fileno(), sys.stderr.fileno())
     
         # write pidfile
-        signal.signal(SIGTERM,self.delpid)
-        atexit.register(self.delpid)
         pid = str(os.getpid())
         file(self.pidfile,'w+').write("%s\n" % pid)
+
+        # register a function to clean up
+        # pid file when program exits
+        atexit.register(self.delpid)
     
     def delpid(self):
         log.info("stopping and removing pid")
