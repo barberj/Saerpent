@@ -42,7 +42,7 @@ class MyDaemon(Daemon):
         """
         Have we been told to stop?
         """
-        return stopping
+        return self.stopping
 
     def run(self):
         """
