@@ -1,3 +1,4 @@
 Python is to Daemon as Saerpent is to Demon
 
 Saerpent is a python implementation of a linux daemon.
+Update of recipe http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/ changing to allow clean exits and proper signal handeling.
